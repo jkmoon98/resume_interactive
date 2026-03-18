@@ -1,0 +1,71 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+
+.tile {
+  position: relative;
+  background: var(--bg-elevated);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+  aspect-ratio: 1;
+}
+
+.aspect {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--transition);
+}
+
+.tile:hover .img {
+  transform: scale(1.03);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--overlay);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity var(--transition);
+  padding: 12px;
+  text-align: center;
+}
+
+.tile:hover .overlay {
+  opacity: 1;
+}
+
+.overlayTitle {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.overlayCategory {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

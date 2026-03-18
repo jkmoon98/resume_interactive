@@ -1,0 +1,130 @@
+import { useState, useCallback, useRef } from 'react'
+import { profile, posts } from './data/resume'
+import { TopBar } from './components/TopBar'
+import { ProfileHeader } from './components/ProfileHeader'
+import { ContentTabs } from './components/ContentTabs'
+import { Sidebar, type SidebarItemId } from './components/Sidebar'
+import { Grid } from './components/Grid'
+import { PostModal } from './components/PostModal'
+import { HighlightModal } from './components/HighlightModal'
+import type { Post } from './types'
+
+import './App.css'
+
+const highlightTitles: Record<Exclude<SidebarItemId, 'home' | 'links'>, string> = {
+  experience: 'Experience & Skills',
+  education: 'Education',
+  beyond: 'Beyond Code',
+}
+
+const highlightContent: Record<Exclude<SidebarItemId, 'home' | 'links'>, React.ReactNode> = {
+  experience: (
+    <>
+      <p style={{ marginTop: 0 }}>Software Engineer with 5 years in real-time, safety-critical traffic systems at Econolite. Roles span intern through Software Engineer, with focus on C++/Python, SNMP/MIB, and large codebase modernization.</p>
+      <h4 style={{ marginBottom: 6, fontSize: 13, color: 'var(--text-secondary)' }}>Languages & Systems</h4>
+      <p style={{ margin: '0 0 12px' }}>C++, Python, Embedded Linux</p>
+      <h4 style={{ marginBottom: 6, fontSize: 13, color: 'var(--text-secondary)' }}>Protocols & Domains</h4>
+      <p style={{ margin: '0 0 12px' }}>SNMP, MIBs, Real-Time Systems, Traffic Control Systems</p>
+      <h4 style={{ marginBottom: 6, fontSize: 13, color: 'var(--text-secondary)' }}>Tooling & Practices</h4>
+      <p style={{ margin: 0 }}>Git, CI/CD (Jenkins, CMake), SQL. Unit Testing (Google Test, PyTest). Agile Development, Code Reviews.</p>
+    </>
+  ),
+  education: (
+    <p><strong>University of California, Irvine</strong> — June 2020. Bachelor of Science, Computer Science.</p>
+  ),
+  beyond: (
+    <p>Add a short note on interests and how they shape your perspective when you’re ready.</p>
+  ),
+}
+
+export default function App() {
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null)
+  type SidebarModalItemId = Exclude<SidebarItemId, 'home' | 'links'> // experience | education | beyond
+  type SidebarModalId = Exclude<SidebarItemId, 'home'> // experience | education | beyond | links
+
+  const [sidebarModal, setSidebarModal] = useState<SidebarModalId | null>(null)
+  const mainContentRef = useRef<HTMLElement>(null)
+
+  const currentIndex = selectedPost
+    ? posts.findIndex((p) => p.id === selectedPost.id)
+    : -1
+  const hasPrev = currentIndex > 0
+  const hasNext = currentIndex >= 0 && currentIndex < posts.length - 1
+
+  const openPost = useCallback((post: Post) => setSelectedPost(post), [])
+  const closePost = useCallback(() => setSelectedPost(null), [])
+  const goPrev = useCallback(() => {
+    if (hasPrev && selectedPost) {
+      setSelectedPost(posts[currentIndex - 1])
+    }
+  }, [hasPrev, currentIndex, selectedPost])
+  const goNext = useCallback(() => {
+    if (hasNext && selectedPost) {
+      setSelectedPost(posts[currentIndex + 1])
+    }
+  }, [hasNext, currentIndex, selectedPost])
+
+  const handleSidebarSelect = useCallback((id: SidebarItemId) => {
+    if (id === 'home') {
+      mainContentRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
+      return
+    }
+    setSidebarModal(id as Exclude<SidebarItemId, 'home'>)
+  }, [])
+
+  const highlightTitle =
+    sidebarModal === 'links'
+      ? 'Links'
+      : sidebarModal
+        ? highlightTitles[sidebarModal as SidebarModalItemId]
+        : null
+
+  const highlightBody =
+    sidebarModal === 'links' ? (
+      <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+        {profile.links.map(({ label, url }) => (
+          <li key={label} style={{ marginBottom: 12 }}>
+            <a href={url} target="_blank" rel="noopener noreferrer">
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : sidebarModal && highlightContent[sidebarModal as SidebarModalItemId] ? (
+      highlightContent[sidebarModal as SidebarModalItemId]
+    ) : null
+
+  return (
+    <div className="app-shell">
+      <main ref={mainContentRef} className="main-content">
+        <TopBar title={profile.name} onMenuClick={() => setSidebarModal('links')} />
+        <div className="main-inner">
+          <div className="app-header">
+            <ProfileHeader profile={profile} />
+          </div>
+          <ContentTabs />
+          <Grid posts={posts} onPostClick={openPost} />
+        </div>
+      </main>
+      <Sidebar
+        activeId={sidebarModal}
+        onSelect={handleSidebarSelect}
+      />
+      <PostModal
+        post={selectedPost}
+        onClose={closePost}
+        onPrev={goPrev}
+        onNext={goNext}
+        hasPrev={hasPrev}
+        hasNext={hasNext}
+      />
+      {sidebarModal && (
+        <HighlightModal
+          title={sidebarModal === 'links' ? 'Links' : highlightTitle ?? sidebarModal}
+          content={highlightBody}
+          onClose={() => setSidebarModal(null)}
+        />
+      )}
+    </div>
+  )
+}

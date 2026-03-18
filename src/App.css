@@ -1,0 +1,23 @@
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding-bottom: 72px; /* space for bottom tab bar */
+}
+
+.main-inner {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 0 40px;
+}
+
+.app-header {
+  padding-bottom: 0;
+}

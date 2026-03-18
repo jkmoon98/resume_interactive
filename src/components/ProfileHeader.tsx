@@ -39,7 +39,12 @@ export function ProfileHeader({ profile }: ProfileHeaderProps) {
         )}
       </div>
       <div className={styles.actions}>
-        <a href={profile.links.find(l => l.label === 'Resume')?.url ?? '#'} className={styles.btnPrimary}>
+        <a
+          href={profile.links.find((l) => l.label === 'Resume')?.url ?? '/resume.pdf'}
+          className={styles.btnPrimary}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Resume
         </a>
         <a href={profile.links.find(l => l.label === 'Email')?.url ?? '#'} className={styles.btnSecondary}>

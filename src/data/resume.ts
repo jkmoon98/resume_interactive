@@ -13,7 +13,7 @@ export const profile: Profile = {
   links: [
     { label: 'LinkedIn', url: 'https://www.linkedin.com/in/jkmoon98' },
     { label: 'Email', url: 'mailto:jkmoon98@gmail.com' },
-    { label: 'Resume', url: '#' },
+    { label: 'Resume', url: '/resume.pdf' },
   ],
 }
 

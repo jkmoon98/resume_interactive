@@ -33,7 +33,10 @@ const highlightContent: Record<Exclude<SidebarItemId, 'home' | 'links'>, React.R
     <p><strong>University of California, Irvine</strong> — June 2020. Bachelor of Science, Computer Science.</p>
   ),
   beyond: (
-    <p>Add a short note on interests and how they shape your perspective when you’re ready.</p>
+    <p>
+      I&apos;m a big Dodgers fan! Let&apos;s go for that three-peat! :) I&apos;m a big fan of sports. I love to sing. I love to watch TV shows and movies—my favorites are{' '}
+      <em>Community</em> and the <em>Lord of the Rings</em> trilogy.
+    </p>
   ),
 }
 

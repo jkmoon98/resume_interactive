@@ -6,12 +6,12 @@
 
 .tile {
   position: relative;
+  aspect-ratio: 1;
   background: var(--bg-elevated);
   border: none;
   padding: 0;
   cursor: pointer;
   overflow: hidden;
-  aspect-ratio: 1;
 }
 
 .aspect {

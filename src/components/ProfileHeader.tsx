@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import type { Profile } from '../types'
 
 import styles from './ProfileHeader.module.css'
@@ -6,7 +7,10 @@ interface ProfileHeaderProps {
   profile: Profile
 }
 
+const BIO_LINK_LABELS = new Set(['LinkedIn', 'GitHub'])
+
 export function ProfileHeader({ profile }: ProfileHeaderProps) {
+  const bioLinks = profile.links.filter((l) => BIO_LINK_LABELS.has(l.label))
   return (
     <header className={styles.header}>
       <div className={styles.topRow}>
@@ -32,10 +36,22 @@ export function ProfileHeader({ profile }: ProfileHeaderProps) {
         <h1 className={styles.name}>{profile.name}</h1>
         {profile.headline && <p className={styles.headline}>{profile.headline}</p>}
         <p className={styles.bio}>{profile.bio}</p>
-        {profile.links[0] && (
-          <a href={profile.links[0].url} target="_blank" rel="noopener noreferrer" className={styles.profileLink}>
-            {profile.links[0].label}
-          </a>
+        {bioLinks.length > 0 && (
+          <p className={styles.profileLinksRow}>
+            {bioLinks.map((link, i) => (
+              <Fragment key={link.label}>
+                {i > 0 && <span className={styles.profileLinkSep} aria-hidden> · </span>}
+                <a
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.profileLink}
+                >
+                  {link.label}
+                </a>
+              </Fragment>
+            ))}
+          </p>
         )}
       </div>
       <div className={styles.actions}>

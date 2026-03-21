@@ -75,13 +75,22 @@
   white-space: pre-line;
 }
 
-.profileLink {
-  display: inline-block;
+.profileLinksRow {
+  margin: 0 0 12px;
   font-size: 14px;
+  line-height: 1.4;
+}
+
+.profileLinkSep {
+  color: var(--text-secondary);
+  user-select: none;
+}
+
+.profileLink {
+  display: inline;
   font-weight: 500;
   color: var(--accent);
   text-decoration: none;
-  margin-bottom: 12px;
 }
 
 .profileLink:hover {

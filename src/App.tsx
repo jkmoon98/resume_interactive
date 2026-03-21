@@ -1,5 +1,6 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useMemo, useEffect } from 'react'
 import { profile, posts } from './data/resume'
+import type { GridTabId } from './types'
 import { TopBar } from './components/TopBar'
 import { ProfileHeader } from './components/ProfileHeader'
 import { ContentTabs } from './components/ContentTabs'
@@ -46,26 +47,36 @@ export default function App() {
   type SidebarModalId = Exclude<SidebarItemId, 'home'> // experience | education | beyond | links
 
   const [sidebarModal, setSidebarModal] = useState<SidebarModalId | null>(null)
+  const [activeGridTab, setActiveGridTab] = useState<GridTabId>('experience')
   const mainContentRef = useRef<HTMLElement>(null)
 
+  const filteredPosts = useMemo(
+    () => posts.filter((p) => p.gridTab === activeGridTab),
+    [activeGridTab]
+  )
+
+  useEffect(() => {
+    setSelectedPost(null)
+  }, [activeGridTab])
+
   const currentIndex = selectedPost
-    ? posts.findIndex((p) => p.id === selectedPost.id)
+    ? filteredPosts.findIndex((p) => p.id === selectedPost.id)
     : -1
   const hasPrev = currentIndex > 0
-  const hasNext = currentIndex >= 0 && currentIndex < posts.length - 1
+  const hasNext = currentIndex >= 0 && currentIndex < filteredPosts.length - 1
 
   const openPost = useCallback((post: Post) => setSelectedPost(post), [])
   const closePost = useCallback(() => setSelectedPost(null), [])
   const goPrev = useCallback(() => {
     if (hasPrev && selectedPost) {
-      setSelectedPost(posts[currentIndex - 1])
+      setSelectedPost(filteredPosts[currentIndex - 1])
     }
-  }, [hasPrev, currentIndex, selectedPost])
+  }, [hasPrev, currentIndex, selectedPost, filteredPosts])
   const goNext = useCallback(() => {
     if (hasNext && selectedPost) {
-      setSelectedPost(posts[currentIndex + 1])
+      setSelectedPost(filteredPosts[currentIndex + 1])
     }
-  }, [hasNext, currentIndex, selectedPost])
+  }, [hasNext, currentIndex, selectedPost, filteredPosts])
 
   const handleSidebarSelect = useCallback((id: SidebarItemId) => {
     if (id === 'home') {
@@ -105,8 +116,8 @@ export default function App() {
           <div className="app-header">
             <ProfileHeader profile={profile} />
           </div>
-          <ContentTabs />
-          <Grid posts={posts} onPostClick={openPost} />
+          <ContentTabs activeTab={activeGridTab} onTabChange={setActiveGridTab} />
+          <Grid posts={filteredPosts} onPostClick={openPost} />
         </div>
       </main>
       <Sidebar

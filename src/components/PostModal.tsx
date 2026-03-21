@@ -99,7 +99,7 @@ export function PostModal({
             </h2>
             <div className={styles.meta}>
               <span className={styles.category}>{post.category}</span>
-              <span className={styles.date}>{post.date}</span>
+              {post.date ? <span className={styles.date}>{post.date}</span> : null}
             </div>
             <p className={styles.summary}>{post.summary}</p>
             <div className={styles.body}>

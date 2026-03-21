@@ -13,8 +13,12 @@ export interface Highlight {
   icon?: string
 }
 
+export type GridTabId = 'experience' | 'projects'
+
 export interface Post {
   id: string
+  /** Which top tab this tile appears under */
+  gridTab: GridTabId
   title: string
   category: string
   date: string

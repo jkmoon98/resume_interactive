@@ -136,6 +136,46 @@
   opacity: 0.9;
 }
 
+@media (max-width: 420px) {
+  .topRow {
+    gap: 12px;
+  }
+
+  .stats {
+    gap: 6px;
+    flex: 1;
+    min-width: 0;
+    justify-content: space-between;
+  }
+
+  .stats li {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .stats strong {
+    font-size: 15px;
+  }
+
+  .stats span {
+    font-size: 10px;
+    text-align: center;
+    line-height: 1.15;
+    max-width: 100%;
+    hyphens: auto;
+  }
+
+  .actions {
+    gap: 6px;
+  }
+
+  .btnPrimary,
+  .btnSecondary {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+}
+
 @media (min-width: 480px) {
   .actions {
     flex-wrap: nowrap;

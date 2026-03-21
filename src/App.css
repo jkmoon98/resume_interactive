@@ -9,13 +9,14 @@
   flex: 1;
   overflow-y: auto;
   min-height: 0;
-  padding-bottom: 72px; /* space for bottom tab bar */
+  /* space for bottom tab bar + home indicator on iPhone */
+  padding-bottom: calc(72px + env(safe-area-inset-bottom, 0));
 }
 
 .main-inner {
   max-width: 640px;
   margin: 0 auto;
-  padding: 0 0 40px;
+  padding: 0 16px 40px;
 }
 
 .app-header {

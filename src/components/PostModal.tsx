@@ -85,7 +85,7 @@ export function PostModal({
           </button>
         )}
 
-        <div className={styles.layout}>
+        <div className={styles.scrollBody}>
           <div className={styles.media}>
             <img
               src={post.imageUrl}

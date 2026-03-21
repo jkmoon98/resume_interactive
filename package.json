@@ -1,12 +1,13 @@
 {
-  "name": "resume-interactive",
+  "name": "jonathan-moon-resume",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy:all": "bash scripts/deploy-all.sh"
   },
   "dependencies": {
     "react": "^18.2.0",

@@ -53,7 +53,7 @@ export const myProjects: Post[] = [
     tech: ['React', 'TypeScript', 'Vite', 'Firebase Hosting'],
     links: [
       { label: 'GitHub', url: 'https://github.com/jkmoon98/resume_interactive' },
-      { label: 'Live', url: 'https://resume-interactive.web.app' },
+      { label: 'Live', url: 'https://jonathan-moon-resume.web.app' },
     ],
   },
   {
